@@ -1,0 +1,25 @@
+{
+  "name": "antd-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "antd": "^5.19.3",
+    "axios": "^1.7.2",
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "reset-css": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}
