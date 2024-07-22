@@ -47,12 +47,11 @@ export default function Checker() {
     }
 
     useEffect(() => {
-
         const addr = localStorage.getItem("address")
         if (addr) {
             setAddress(addr)
         }
-    })
+    }, [])
 
     
 
