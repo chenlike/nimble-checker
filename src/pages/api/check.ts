@@ -9,13 +9,16 @@ export default function handler(
     req: NextApiRequest,
     res: NextApiResponse<NimbleResData>,
 ) {
-    if (req.method !== "POST") {
-        return res.status(405).json({ msg: "Method not allowed" })
-    }
 
     axios.post("https://mainnet.nimble.technology:443/check_balance", { 
         "address":  req.body.address
     }).then((response) => {
         res.status(200).json(response.data);
-    })
+    }).catch((error) => {
+    
+        res.status(200).json({
+            msg:JSON.stringify(error.response.data)
+        });
+
+    });
 }

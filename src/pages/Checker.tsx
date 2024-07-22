@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, Input, Table,message } from "antd"
 import style from "../styles/Checker.module.css";
 import type { TableProps } from 'antd';
-
+import axios from "axios"
 const { Column } = Table
 const { TextArea } = Input
 interface DataType {
@@ -18,32 +18,34 @@ export default function Checker() {
     const openSourceUrl = 'https://github.com/chenlike/nimble-checker'
 
     async function checkBalance() {
+        setLoading(true);
+        localStorage.setItem("address", address);
 
-
-        setLoading(true)
-        const addresses = address.split("\n")
-        if (addresses.length == 0) {
-            message.warning("Please input nimble address first")
-            setLoading(false)
-            return
+        let addresses = address.split("\n");
+        // 过滤空的地址
+        const reg = /^\s*$/;
+        addresses = addresses.filter((addr) => !reg.test(addr));
+        if (addresses.length === 0) {
+            message.warning("Please input nimble address first");
+            setLoading(false);
+            return;
         }
-        const promises = addresses.map(async (addr) => {
-            const res = await fetch("/api/check", {
-                method: "POST",
-                body: JSON.stringify({ address: addr.trim() }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            const data = await res.json()
-            return { address: addr.trim(), msg: data.msg }
-        })
-        const results = await Promise.all(promises)
-        setCheckList((pre) => [ ...results])
-        setLoading(false)
         
-        localStorage.setItem("address", address)
+        const promises = addresses.map(async (addr) => {
+            try {
+            const res = await axios.post("/api/check", { address: addr.trim() });
+            const data = res.data;
+            return { address: addr.trim(), msg: data.msg };
+            } catch (error) {
+            return { address: addr.trim(), msg: "Failed to check balance" };
+            }
+        });
 
+        const results = await Promise.all(promises);
+
+
+        setCheckList((pre) => [...results]);
+        setLoading(false);
     }
 
     useEffect(() => {
