@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Input, Table,message } from "antd"
+import { Button, Input, Table, message } from "antd"
 import style from "../styles/Checker.module.css";
 import type { TableProps } from 'antd';
 import axios from "axios"
@@ -30,14 +30,14 @@ export default function Checker() {
             setLoading(false);
             return;
         }
-        
+
         const promises = addresses.map(async (addr) => {
             try {
-            const res = await axios.post("/api/check", { address: addr.trim() });
-            const data = res.data;
-            return { address: addr.trim(), msg: data.msg };
+                const res = await axios.post("/api/check", { address: addr.trim() });
+                const data = res.data;
+                return { address: addr.trim(), msg: data.msg };
             } catch (error) {
-            return { address: addr.trim(), msg: "Failed to check balance" };
+                return { address: addr.trim(), msg: "Failed to check balance" };
             }
         });
 
@@ -55,16 +55,16 @@ export default function Checker() {
         }
     }, [])
 
-    
+
 
 
     return <>
         <div className={style.contianer}>
             <div className={style.title}>Nimble Balance Checker</div>
             <TextArea rows={6} placeholder="your nimble address here" value={address}
-                onChange={(e)=>setAddress(e.target.value)} />
+                onChange={(e) => setAddress(e.target.value)} />
 
-            <Button onClick={()=>checkBalance()} className={style.checker} loading={loading} size="large" type="primary">Check Balance</Button>
+            <Button onClick={() => checkBalance()} className={style.checker} loading={loading} size="large" type="primary">Check Balance</Button>
 
             <Table bordered dataSource={checkList} pagination={false} loading={loading} columns={[
                 {
@@ -82,7 +82,7 @@ export default function Checker() {
             ]}  >
 
             </Table>
-            <div className={style.footer}>Open Source In <Button type="link" onClick={()=>{
+            <div className={style.footer}>Open Source In <Button type="link" onClick={() => {
                 window.open(openSourceUrl)
             }}>Github</Button></div>
 

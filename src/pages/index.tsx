@@ -1,8 +1,9 @@
 import Head from "next/head";
 import { ConfigProvider, theme } from "antd";
 import Checker from "./Checker";
+import { Analytics } from "@vercel/analytics/react"
+
 export default function Home() {
-  const openSourceUrl = "https://github.com/chenlike/nimble-checker"
   return (
     <>
 
@@ -16,7 +17,9 @@ export default function Home() {
         <ConfigProvider theme={{ algorithm: theme.darkAlgorithm }}>
           <Checker></Checker>
         </ConfigProvider>
+        <Analytics/>
       </main>
     </>
   );
+
 }
