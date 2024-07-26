@@ -63,7 +63,11 @@ export default async function handler(
             },
         }
     );
-    console.log(cfResponse.data)
+    console.log({
+        address:req.body.address,
+        cf:cfResponse.data,
+
+    })
     if (cfResponse.data.success === false) {
         res.status(200).json({
             msg: "Please retry the CAPTCHA "
