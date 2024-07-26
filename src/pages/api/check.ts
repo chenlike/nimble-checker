@@ -39,7 +39,7 @@ export default async function handler(
     let captchaKey = process.env.NIMBLE_CAPTCHA_KEY
     if (!captchaKey) {
         res.status(200).json({
-            msg: "Please solve the CAPTCHA first"
+            msg: "Not set the CAPTCHA"
         });
         return
     }
@@ -51,6 +51,15 @@ export default async function handler(
         return
     }
     
+    // 输出请求人的ip
+    try{
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        console.log("Request IP:",ip)
+    }catch{
+
+    }
+
+
     if (!req.body.captcha) {
         res.status(400).json({
             msg: "Please solve the CAPTCHA first"
