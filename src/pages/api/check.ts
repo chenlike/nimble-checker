@@ -50,6 +50,13 @@ export default async function handler(
         });
         return
     }
+    
+    if (!req.body.captcha) {
+        res.status(400).json({
+            msg: "Please solve the CAPTCHA first"
+        });
+        return
+    }
 
     const cfResponse = await axios.post(
         'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -66,8 +73,8 @@ export default async function handler(
     console.log({
         address:req.body.address,
         cf:cfResponse.data,
-
     })
+
     if (cfResponse.data.success === false) {
         res.status(200).json({
             msg: "Please retry the CAPTCHA "
