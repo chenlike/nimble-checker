@@ -81,7 +81,7 @@ export default function Checker() {
         refreshTurnstile()
 
         try {
-            const res = await axios.post("/api/check", { 
+            const res = await axios.post("/api/check?v=1", { 
                 address: reqAddres,
                 captcha: theCAPTCHA
              });
