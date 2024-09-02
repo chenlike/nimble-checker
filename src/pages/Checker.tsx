@@ -32,16 +32,16 @@ export default function Checker() {
         setCaptcha("")
         // 获取 Turnstile 的容器元素
         var turnstileElement = document.querySelector('.cf-turnstile');
-        
+
         // 清除当前的验证码
         if (turnstileElement) {
             turnstileElement.innerHTML = '';
         }
-        
+
         // 重新加载 Turnstile 验证码
         var script = document.createElement('script');
         script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-        script.onload = function() {
+        script.onload = function () {
             turnstile.render(turnstileElement);
         };
         document.head.appendChild(script);
@@ -81,23 +81,23 @@ export default function Checker() {
         refreshTurnstile()
 
         try {
-            const res = await axios.post("/api/check?v=1", { 
+            const res = await axios.post("/api/check?v=1", {
                 address: reqAddres,
                 captcha: theCAPTCHA
-             });
+            });
             const data = res.data;
 
-             if(data.msg){
+            if (data.msg) {
                 message.error("Error:  " + data.msg);
                 setLoading(false);
                 return;
-             }
+            }
 
             results = data;
 
-        } catch (error:any) {
+        } catch (error: any) {
             message.error("Error:  " + error.response.data.msg);
-            
+
         }
 
         setCheckList((pre) => [...results]);
@@ -144,7 +144,7 @@ export default function Checker() {
             <Button onClick={() => checkBalance()} className={style.checker} loading={loading} size="large" type="primary">Check Balance</Button>
             <div style={{
                 marginBottom: 20
-            }}  className="cf-turnstile" data-sitekey="0x4AAAAAAAf26m3RrXqFTX20" data-callback="cfCallBack"></div>
+            }} className="cf-turnstile" data-sitekey="0x4AAAAAAAf26m3RrXqFTX20" data-callback="cfCallBack"></div>
 
             <Table bordered dataSource={checkList} pagination={false} loading={loading} columns={[
                 {
@@ -162,9 +162,17 @@ export default function Checker() {
             ]}  >
 
             </Table>
+
+
+            <div style={{
+                color: "#FFF",
+                marginTop: 10
+            }}>Use <Button type="link" href="https://www.nimble.technology/dashboard" target="_blank">Nimble Official Dashboard</Button>  is better! </div>
+
             <div className={style.footer}>Open Source In <Button type="link" onClick={() => {
                 window.open(openSourceUrl)
             }}>Github</Button></div>
+
 
 
         </div>
